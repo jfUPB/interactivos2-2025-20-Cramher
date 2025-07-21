@@ -29,6 +29,179 @@ Creo que no hay limite para lo que se puede hacer con una experiencia inmersiva 
 #### Vision profesional
 Si tengo que escoger algo relacionado con esto, creo que me interesaria mucho trabajar en conciertos para que los artistas puedan llegar mas a su publico, pese a que ya hay artistas que lo logran a veces peude ser dificil conectar con tanta gente y tenerlos pendientes del espectaculo. Considero que se podria aprovechar mucho mas si algo visual captara su atencio sobretodo para aquellos mas distantes del escenario.
 
+### Actividad 3: Exploracion de Referentes
+
+#### Ejemplo Seleccionado
+```js
+'use strict';
+
+var count = 0;
+var tileCountX = 6;
+var tileCountY = 6;
+
+var drawMode = 1;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  noFill();
+}
+
+function draw() {
+  background(255);
+
+  count = mouseX / 20 + 5;
+  var para = min(height, mouseY) / height - 0.5;
+
+  var tileWidth = width / tileCountX;
+  var tileHeight = height / tileCountY;
+
+  for (var gridY = 0; gridY <= tileCountY; gridY++) {
+    for (var gridX = 0; gridX <= tileCountX; gridX++) {
+
+      var posX = tileWidth * gridX + tileWidth / 2;
+      var posY = tileHeight * gridY + tileHeight / 2;
+
+      push();
+      translate(posX, posY);
+
+      // switch between modules
+      switch (drawMode) {
+      case 1:
+        translate(-tileWidth / 2, -tileHeight / 2);
+        for (var i = 0; i < count; i++) {
+          line(0, (para + 0.5) * tileHeight, tileWidth, i * tileHeight / count);
+          line(0, i * tileHeight / count, tileWidth, tileHeight - (para + 0.5) * tileHeight);
+        }
+        break;
+      case 2:
+        for (var i = 0; i <= count; i++) {
+          line(para * tileWidth, para * tileHeight, tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(para * tileWidth, para * tileHeight, -tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(para * tileWidth, para * tileHeight, (i / count - 0.5) * tileWidth, tileHeight / 2);
+          line(para * tileWidth, para * tileHeight, (i / count - 0.5) * tileWidth, -tileHeight / 2);
+        }
+        break;
+      case 3:
+        for (var i = 0; i <= count; i++) {
+          line(0, para * tileHeight, tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(0, para * tileHeight, -tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(0, para * tileHeight, (i / count - 0.5) * tileWidth, tileHeight / 2);
+          line(0, para * tileHeight, (i / count - 0.5) * tileWidth, -tileHeight / 2);
+        }
+        break;
+      }
+
+      pop();
+
+    }
+  }
+}
+
+function keyReleased() {
+  if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');
+  if (key == '1') drawMode = 1;
+  if (key == '2') drawMode = 2;
+  if (key == '3') drawMode = 3;
+  if (keyCode == DOWN_ARROW) tileCountY = max(tileCountY - 1, 1);
+  if (keyCode == UP_ARROW) tileCountY += 1;
+  if (keyCode == LEFT_ARROW) tileCountX = max(tileCountX - 1, 1);
+  if (keyCode == RIGHT_ARROW) tileCountX += 1;
+}
+```
+#### Explicacion Ejemplo Seleccionado
+El codigo permite interactuar con la densidad de las lineas dibujadas y la rotacion de estas todo a traves de la posicion del mouse en la pantalla de interaccion. Si el mouse se desplaza horizontalmente se dibujan mas o menos lineas, si se desplaza verticalmente, las lineas dibujadas son rotadas para cambiar de posicion.
+
+#### Ejemplo Modificado
+
+```js
+'use strict';
+
+var count = 0;
+var tileCountX = 6;
+var tileCountY = 6;
+
+var drawMode = 1;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  noFill();
+}
+
+function draw() {
+  background(255);
+
+  count = mouseX / 20 + 5;
+  var para = min(height, mouseY) / height - 0.5;
+
+  var tileWidth = width / tileCountX;
+  var tileHeight = height / tileCountY;
+
+/// Esto concretamente, cambio de color segun la posicion del mouse
+  let r = map(mouseX, 0, width, 50, 255);
+  let g = map(mouseY, 0, height, 50, 255);
+  let b = map(mouseX + mouseY, 0, width + height, 100, 255);
+  stroke(r, g, b, 150);
+
+  for (var gridY = 0; gridY <= tileCountY; gridY++) {
+    for (var gridX = 0; gridX <= tileCountX; gridX++) {
+
+      var posX = tileWidth * gridX + tileWidth / 2;
+      var posY = tileHeight * gridY + tileHeight / 2;
+
+      push();
+      translate(posX, posY);
+
+      // switch between modules
+      switch (drawMode) {
+      case 1:
+        translate(-tileWidth / 2, -tileHeight / 2);
+        for (var i = 0; i < count; i++) {
+          line(0, (para + 0.5) * tileHeight, tileWidth, i * tileHeight / count);
+          line(0, i * tileHeight / count, tileWidth, tileHeight - (para + 0.5) * tileHeight);
+        }
+        break;
+      case 2:
+        for (var i = 0; i <= count; i++) {
+          line(para * tileWidth, para * tileHeight, tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(para * tileWidth, para * tileHeight, -tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(para * tileWidth, para * tileHeight, (i / count - 0.5) * tileWidth, tileHeight / 2);
+          line(para * tileWidth, para * tileHeight, (i / count - 0.5) * tileWidth, -tileHeight / 2);
+        }
+        break;
+      case 3:
+        for (var i = 0; i <= count; i++) {
+          line(0, para * tileHeight, tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(0, para * tileHeight, -tileWidth / 2, (i / count - 0.5) * tileHeight);
+          line(0, para * tileHeight, (i / count - 0.5) * tileWidth, tileHeight / 2);
+          line(0, para * tileHeight, (i / count - 0.5) * tileWidth, -tileHeight / 2);
+        }
+        break;
+      }
+
+      pop();
+
+    }
+  }
+}
+
+function keyReleased() {
+  if (key == 's' || key == 'S') saveCanvas(gd.timestamp(), 'png');
+  if (key == '1') drawMode = 1;
+  if (key == '2') drawMode = 2;
+  if (key == '3') drawMode = 3;
+  if (keyCode == DOWN_ARROW) tileCountY = max(tileCountY - 1, 1);
+  if (keyCode == UP_ARROW) tileCountY += 1;
+  if (keyCode == LEFT_ARROW) tileCountX = max(tileCountX - 1, 1);
+  if (keyCode == RIGHT_ARROW) tileCountX += 1;
+}
+
+```
+
+#### Explicacion Ejemplo Modificado
+Ahora el ejemplo sigue funcionando igual solo que ahora cambia de color las lineas dibujadas y el color se hace mas pronunciado segun la cantidad de lineas dibujadas determinadas por la posicion del mouse.
+
 
 
 
