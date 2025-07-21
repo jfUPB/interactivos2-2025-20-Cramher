@@ -202,6 +202,49 @@ function keyReleased() {
 #### Explicacion Ejemplo Modificado
 Ahora el ejemplo sigue funcionando igual solo que ahora cambia de color las lineas dibujadas y el color se hace mas pronunciado segun la cantidad de lineas dibujadas determinadas por la posicion del mouse.
 
+#### Link del ejemplo
+
+[Ejemplo Seleccionado p5](https://editor.p5js.org/generative-design/sketches/P_2_1_3_03)
+
+### Actividad 4: Generación de Formas Geométricas Aleatorias
+
+#### Codigo del experimento
+
+```js
+function setup() {
+  createCanvas(600, 400);
+  background(255);
+  noLoop();
+}
+
+function mousePressed() {
+  background(255);
+  redraw();
+}
+
+function draw() {
+  for (let i = 0; i < 30; i++) {
+    let x = random(width);
+    let y = random(height);
+    let size = random(20, 80);
+
+    fill(random(255), random(255), random(255));
+
+    let shape = int(random(3));
+
+    if (shape === 0) {
+      ellipse(x, y, size);
+    } else if (shape === 1) {
+      rect(x, y, size, size);
+    } else {
+      triangle(x, y, x + size, y, x + size / 2, y - size);
+    }
+  }
+}
+```
+
+#### Explicacion del Experimento
+El codigo va a dibujar 30 figuras geometricas dependiendo del numero que aparezca determinado por los valores que se muestran en la funcion Draw permitiendo que los circulos, los cuadrados y los triangulos tengan diferentes tamaños. A su vez permite que cada figura tenga un color aleatorio cada que se genera y del mismomodo que se vuelvan a generar todos cuando se haga clic.
 
 
 
